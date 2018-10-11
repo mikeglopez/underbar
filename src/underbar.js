@@ -103,8 +103,26 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
+  var bools = []; // array of all items converted to bool
+  var result = []; // final result
+  if (isSorted === true) {
+    if (iterator !== null) {
+      array.forEach(function(item) {
+        bools.push(iterator(item));
+      });
+      var uniqBool = new Set(bools);
+      var uniqBools = Array.from(uniqBool); // array of unique bools
+      uniqBools.forEach(function(item) {
+        result.push(array[bools.indexOf(item)]);
+      });
+    }
+    else {
+      var arrSet = new Set(array);
+      result = Array.from(arrSet);
+    }
+  }
+  else {
     var arrObj = {};
-    var newArr = [];
     for (var i = 0; i < array.length; i++) {
       if (arrObj[array[i]] === undefined) {
         arrObj[array[i]] = 1;
@@ -114,10 +132,37 @@
       }
     }
     for (var key in arrObj) {
-      newArr.push(Number(key));
+      result.push(Number(key));
     }
-    return newArr;
-  };
+  }
+  return result;
+};
+
+
+
+
+
+
+  // if (isSorted === true) {
+  //   var newArr = [];
+  //   for (var i = 0; i < array.length; i++) { // for each item in the array
+  //     for (var j = 0; j < array.length; j++) { // loop over the same numbers
+  //       if ((j !== i) && (array[j] === array[i])) {
+  //         newArr.push(array[j]);
+  //       }
+  //     }
+  //   }
+  //   return newArr;
+  // }
+  // else {
+  //   var arr = array.sort((a, b) => a - b);
+  //   isSorted = true;
+
+  // }
+
+
+
+
 
 
   // Return the results of applying an iterator to each element.
