@@ -138,38 +138,16 @@
   return result;
 };
 
-
-
-
-
-
-  // if (isSorted === true) {
-  //   var newArr = [];
-  //   for (var i = 0; i < array.length; i++) { // for each item in the array
-  //     for (var j = 0; j < array.length; j++) { // loop over the same numbers
-  //       if ((j !== i) && (array[j] === array[i])) {
-  //         newArr.push(array[j]);
-  //       }
-  //     }
-  //   }
-  //   return newArr;
-  // }
-  // else {
-  //   var arr = array.sort((a, b) => a - b);
-  //   isSorted = true;
-
-  // }
-
-
-
-
-
-
   // Return the results of applying an iterator to each element.
   _.map = function(collection, iterator) {
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+    var result = [];
+    _.each(collection, function(item) {
+      result.push(iterator(item));
+    });
+    return result; 
   };
 
   /*
