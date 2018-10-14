@@ -234,18 +234,12 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
-   var isTrue = false;
-    _.each(collection, function(item) {
-      if (iterator === undefined) {
-        if (!!item === true) {
-          isTrue = true;
-        }
+   return _.reduce(collection, function(isTrue, item) {
+      if (!!isTrue) {
+        return true;
       }
-      else if (!!iterator(item)) {
-        isTrue = true;
-      }
-    });
-    return isTrue;
+      return iterator === undefined ? !!item : !!iterator(item)
+    }, false);
   };
 
   /**
