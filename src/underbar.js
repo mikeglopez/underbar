@@ -193,6 +193,7 @@
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
     var wasRan = false;
+
     _.each(collection, function(item) {   
       if (accumulator === undefined && wasRan === false) {
         accumulator = item;
@@ -202,6 +203,7 @@
         accumulator = iterator(accumulator, item);
       }
     });
+
     return accumulator;
   };
 
@@ -217,18 +219,34 @@
     }, false);
   };
 
-
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    return _.reduce(collection, function(isTrue, item) {
+      if (!isTrue) {
+        return false;
+      }
+     return iterator === undefined ? item : !!iterator(item);
+    }, true); 
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+   var isTrue = false;
+    _.each(collection, function(item) {
+      if (iterator === undefined) {
+        if (!!item === true) {
+          isTrue = true;
+        }
+      }
+      else if (!!iterator(item)) {
+        isTrue = true;
+      }
+    });
+    return isTrue;
   };
-
 
   /**
    * OBJECTS
