@@ -302,7 +302,7 @@
     return function() {
       if (!alreadyCalled) {
         // TIP: .apply(this, arguments) is the standard way to pass on all of the
-        // infromation from one function call to another.
+        // information from one function call to another.
         result = func.apply(this, arguments);
         alreadyCalled = true;
       }
@@ -320,8 +320,18 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
-  };
-
+    // TIP: These variables are stored in a "closure scope" (worth researching),
+    // so that they'll remain available to the newly-generated function every
+    // time it's called.
+    var argsObj = {};
+    return function() {
+      var keys = JSON.stringify(Array.prototype.slice.call(arguments));
+      if (argsObj[keys] === undefined) {
+        argsObj[keys] = func.apply(this, arguments);
+      }
+      return argsObj[keys];
+    }
+  }
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
   //
@@ -330,6 +340,11 @@
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
   };
+
+  // for each set of arguments passed...
+  // add set of arguments to an array.
+  // for each set of arguments in the array...
+  // if this set of arguments has been called
 
 
   /**
