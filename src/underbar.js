@@ -325,7 +325,7 @@
     // time it's called.
     var argsObj = {};
     return function() {
-      var keys = JSON.stringify(Array.prototype.slice.call(arguments));
+      var keys = JSON.stringify(Array.from(arguments));
       if (argsObj[keys] === undefined) {
         argsObj[keys] = func.apply(this, arguments);
       }
@@ -339,13 +339,11 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    var args = [...arguments].slice(2);
+    return setTimeout(function() { 
+      return func.apply(this, args);
+    }, wait);
   };
-
-  // for each set of arguments passed...
-  // add set of arguments to an array.
-  // for each set of arguments in the array...
-  // if this set of arguments has been called
-
 
   /**
    * ADVANCED COLLECTION OPERATIONS
